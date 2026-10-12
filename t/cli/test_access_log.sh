@@ -332,7 +332,7 @@ nginx_config:
 
 make init
 
-count_log_if=$(grep "access_log logs/access.log main buffer=16384 flush=3" conf/nginx.conf | grep -cF 'if=$loggable;')
+count_log_if=$(grep "access_log logs/access.log main buffer=16384 flush=3" conf/nginx.conf | grep -cF 'if=$loggable;' || true)
 if [ "$count_log_if" -ne 1 ]; then
     echo "failed: access_log if condition is not rendered"
     exit 1
@@ -346,7 +346,7 @@ git checkout conf/config.yaml
 
 make init
 
-count_no_log_if=$(grep "access_log logs/access.log main" conf/nginx.conf | grep -c "if=")
+count_no_log_if=$(grep "access_log logs/access.log main" conf/nginx.conf | grep -c "if=" || true)
 if [ "$count_no_log_if" -ne 0 ]; then
     echo "failed: access_log if condition should not be rendered when it is not configured"
     exit 1
